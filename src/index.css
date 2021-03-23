@@ -125,7 +125,7 @@ code {
   text-align: center;
   color: var(--bgcolor);
 }
-.notes-alignment{
+.remarks-alignment{
   width: 98%;
   border: 1px solid rgba(77, 77, 80, 0.081);
   margin: 0 auto;
@@ -199,7 +199,7 @@ code {
     height: 30px;
     font-size: 15px;
   }
-.notes-alignment-conatiner{
+.remarks-alignment-conatiner{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -207,7 +207,7 @@ code {
 }
 .card-main-conatiner{
   width: 320px;
-  height: 300px;
+  height: 340px;
   margin: 10px;
   border-radius: 8px;
   justify-content: center;

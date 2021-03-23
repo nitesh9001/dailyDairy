@@ -15,56 +15,49 @@ export default class Landing extends Component {
     editData: "",
     id: "",
     title: "",
-    notes: "",
-    priority: "",
-    importantDate: "",
-    importantLink: "",
+    remarks: "",
+    leaveType: "",
+    fromDate: "",
+    toDate: "",
     favrouite: false,
-    notes_dairy: [
+    remarks_dairy: [
       {
         id: 1,
         title: "Daily update",
-        notes:
+        remarks:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio hic nemo quas, dolore perspiciatis expedita placeat assumenda aliquid cumque itaque amet rem fugiat. Ipsam in tenetur officia vitae nobis qui!",
-        priority: "high",
-        importantDate: "12-01-2021",
-        importantLink: "www.google.com",
+        leaveType: "Emergency",
+        fromDate: "2021-03-17",
+        toDate: "2021-03-20",
+        leaveCountRem:10,
         CreatedAt: "1619515835",
         favrouite: true,
       },
       {
         id: 2,
         title: "Daily update 2",
-        notes:
+        remarks:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio hic nemo quas, dolore perspiciatis expedita placeat assumenda aliquid cumque itaque amet rem fugiat. Ipsam in tenetur officia vitae nobis qui!",
-        priority: "Medium",
-        importantDate: "12-01-2021",
-        importantLink: "www.google.com",
+        leaveType: "Medical",
+        fromDate: "2021-03-17",
+        toDate: "2021-03-20",
+        leaveCountRem:9,
         CreatedAt: "1609515814",
         favrouite: false,
       },
       {
         id: 3,
         title: "Daily update 3",
-        notes:
+        remarks:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio hic nemo quas, dolore perspiciatis expedita placeat assumenda aliquid cumque itaque amet rem fugiat. Ipsam in tenetur officia vitae nobis qui!",
-        priority: "low",
-        importantDate: "12-01-2021",
-        importantLink: "www.google.com",
+        leaveType: "Personal",
+        fromDate: "2021-03-17",
+        leaveCountRem:8,
+        toDate: "2021-03-20",
         CreatedAt: "1619015835",
         favrouite: true,
       },
-      {
-        id: 4,
-        title: "Daily update 4",
-        notes:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio hic nemo quas, dolore perspiciatis expedita placeat assumenda aliquid cumque itaque amet rem fugiat. Ipsam in tenetur officia vitae nobis qui!",
-        priority: "high",
-        importantDate: "12-01-2021",
-        importantLink: "www.google.com",
-        CreatedAt: "1612500835",
-        favrouite: false,
-      },
+      
     ],
   };
   handleChange = (e) => {
@@ -72,25 +65,32 @@ export default class Landing extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    console.log(this.state.fromDate)
   };
+  componentDidMount(){
+    localStorage.setItem('n',3)
+    localStorage.setItem('le',8)
+  }
   saveData = (e) => {
     e.preventDefault();
     const date= new Date()
     var unixTimestamp = moment(date, "YYYY.MM.DD").unix();
     console.log(unixTimestamp)
+    
     const data = {
-      id: this.state.id,
+      id:localStorage.getItem('n')+1,
       title: this.state.title,
-      notes: this.state.notes,
-      priority: this.state.priority,
-      importantDate: this.state.importantDate,
-      importantLink: this.state.importantLink,
+      remarks: this.state.remarks,
+      leaveType: this.state.leaveType,
+      fromDate: this.state.fromDate,
+      toDate: this.state.toDate,
       favrouite: false,
+      leaveCountRem:localStorage.getItem('le')-1,
       CreatedAt: unixTimestamp,
     };
     console.log(data)
     this.setState({
-      notes_dairy: [...this.state.notes_dairy, data],
+      remarks_dairy: [...this.state.remarks_dairy, data],
       openAdd: false,
       sortType:''
     });
@@ -102,28 +102,15 @@ export default class Landing extends Component {
       cancelButtonColor: "#d33",
       confirmButtonText: "Ok"
     })
-   
+   localStorage.setItem('n',data.id)
+   localStorage.setItem('n',data.leaveCountRem)
   };
-  edit(id) {
-    this.setState({
-      openAdd: true
-    });
-    console.log(id)
-    var d = this.state.notes_dairy.filter(item => item.id === id)
-    this.setState({
-      id:d.id,
-      title:d.title,
-      notes:d.notes,
-      priority:d.priority,
-      importantDate:d.importantDate,
-      importantLink:d.importantLink,
-    })
-  }
+ 
   
   Delete(id){
     console.log(id)
     this.setState({
-      notes_dairy:this.state.notes_dairy.filter(item => item.id !== id)
+      remarks_dairy:this.state.remarks_dairy.filter(item => item.id !== id)
     })
   }
   handleSOrting = e =>{
@@ -133,17 +120,13 @@ export default class Landing extends Component {
     })
   }
   render() {
-    const {notes_dairy,sortType}=this.state;
-        const sortedNotes=sortType ? notes_dairy.sort((a,b)=>{
-        const isReversed= (sortType === 'ascend') ? 1:-1;
-        return isReversed * a.CreatedAt.toString().localeCompare(b.CreatedAt.toString())
-    }): notes_dairy
+    
     return (
       <div>
         <Header />
         <div className="landing-page-conatiner">
-          <div className="center-heading">Daily Dairy</div>
-          <div className="notes-alignment">
+          <div className="center-heading">Daily Leave App</div>
+          <div className="remarks-alignment">
             <div className="action-center-header">
               <div>
                 {this.state.openAdd ? (
@@ -177,98 +160,95 @@ export default class Landing extends Component {
                         class="fa fa-plus"
                         aria-hidden="true"
                         style={{ cursor: "pointer" }}
-                      ></i>
+                      ></i> {" "} <span
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: "14px",
+                        }}
+                      >
+                        ADD
+                      </span>
                     </button>
                   </Tooltip>
                 )}
               </div>
             </div>
             {this.state.openAdd ? (
-              <>
-                <div
-                  className="notes-alignment-conatiner"
-                  style={{ display: "block", margin: "60px" }}
+              <div
+                  className="remarks-alignment-conatiner"
+                  style={{ display: "block", margin: "60px" ,paddingBottom:'40px' }}
                 >
+                
                   <div className="input-box-style">
                     <div className="lable">
-                      <label>ID :</label>
-                    </div>{" "}
-                    <input
-                      type="number"
-                      placeholder="ID"
-                      name="id"
-                      value={this.state.id}
+                      <label>Leave type :</label>
+                    </div>
+                    {" "}
+                    <select
                       onChange={this.handleChange}
-                    />
+                      value={this.state.leaveType}
+                      name="leaveType"
+                    >
+                      <option value={""}>Select Leave Type</option>
+                      <option value={"Emergency"}>Emergency</option>
+                      <option value={"Medical"}>Medical</option>
+                      <option value={"Half"}>Half day</option>
+                      <option value={"Personal"}>Personal Work</option>
+                      <option value={"Party"}>Party</option>
+                    </select>
                   </div>
                   <div className="input-box-style">
                     <div className="lable">
-                      <label>Title :</label>
+                      <label>Subject of leave :</label>
                     </div>{" "}
                     <input
                       type="text"
-                      placeholder="Title"
+                      placeholder="Subject of Leave"
                       name="title"
                       value={this.state.title}
                       onChange={this.handleChange}
                     />
                   </div>
+                 
                   <div className="input-box-style">
                     <div className="lable">
-                      <label>Important Link :</label>
-                    </div>{" "}
-                    <input
-                      type="text"
-                      placeholder="important Link"
-                      name="importantLink"
-                      value={this.state.importantLink}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div className="input-box-style">
-                    <div className="lable">
-                      <label>Important Date :</label>
+                      <label>From  Date :</label>
                     </div>{" "}
                     <input
                       type="date"
-                      placeholder="Important Date"
-                      name="importantDate"
-                      value={this.state.importantDate}
+                      placeholder="From"
+                      name="fromDate"
+                      value={this.state.fromDate}
                       onChange={this.handleChange}
                     />
-                  </div>
-                  <div className="input-box-style">
-                    <div className="lable">
-                      <label>Priority :</label>
+                      <div className="lable">
+                      <label>To  Date :</label>
                     </div>{" "}
-                    <select
+                    <input
+                      type="date"
+                      placeholder="To"
+                      name="toDate"
+                      value={this.state.fromDate}
                       onChange={this.handleChange}
-                      value={this.state.priority}
-                      name="priority"
-                    >
-                      <option value={""}>Select Priority</option>
-                      <option value={"Urgent"}>Urgent</option>
-                      <option value={"High"}>High</option>
-
-                      <option value={"Medium"}>Medium</option>
-
-                      <option value={"Low"}>Low</option>
-                    </select>
-                  </div>
+                    />
+                  </div>  
+                 
                   <div className="input-box-style">
                     <div className="lable">
-                      <label>Description :</label>
+                      <label>Remarks :</label>
                     </div>{" "}
                     <textarea
                       rows={3}
                       cols={40}
                       className="form-control"
                       onChange={this.handleChange}
-                      name="notes"
-                      placeholder="Notes"
-                      value={this.state.notes}
+                      name="remarks"
+                      placeholder="Remarks"
+                      value={this.state.remarks}
                     />
                   </div>
+                 
                   <button
                     className="tn_save"
                     onClick={this.saveData.bind(this)}
@@ -278,37 +258,16 @@ export default class Landing extends Component {
                   </button>
                   <button
                     className="tn_cancel"
-                    onClick={() => {
-                      this.setState({
-                        openAdd: false,
-                      });
-                    }}
+                    onClick={this.props.close}
                   >
                     Cancel
                   </button>
                 </div>
-              </>
-            ) : (
+              ) : (
               <>
-                <div className="sorting-filtering-action">
-                  <div className="sorting">
-                    <select onChange={this.handleSOrting} value={this.state.sortType} name="sortType">
-                      <option value={""}>Sort Notes</option>
-                      <option value={"decend"}>Newest First</option>
-                      <option value={"ascend"}>Oldest First</option>
-                    </select>
-                  </div>
-                  <div className="filtering">
-                    <select onChange={this.handleFilter} value={this.state.filter} name="filter">
-                      <option>Filter DateWise</option>
-                      <option>This Week</option>
-                      <option>This Month</option>
-                      <option>This Year</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="notes-alignment-conatiner">
-                  {sortedNotes.map((data, i) => (
+                
+                <div className="remarks-alignment-conatiner">
+                  {this.state.remarks_dairy.map((data, i) => (
                     <CardNotes
                       key={i}
                       data={data}

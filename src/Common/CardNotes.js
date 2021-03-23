@@ -10,7 +10,18 @@ export default class CardNotes extends Component {
     const date=moment.unix(id).format('dddd, MMMM Do, YYYY h:mm:ss A')
      return date
     }
-    
+    diff(td,fd){
+        var date1 = new Date(td);
+        var date2 = new Date(fd);
+          console.log(date1,date2)
+        // To calculate the time difference of two dates
+        var Difference_In_Time = date1.getTime() - date2.getTime();
+          
+        // To calculate the no. of days between two dates
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        console.log(Difference_In_Days)
+        return Difference_In_Days
+    }
     render() {
         return (
             <div className="card-main-conatiner">
@@ -43,20 +54,25 @@ export default class CardNotes extends Component {
                   </div>
                </div>
                <div className="Priority">
-                  <span>Priority :</span><span style={{color:'red'}}>{this.props.data.priority} </span>
+                  <span>Leave type :</span><span style={{color:'red'}}>{this.props.data.leaveType} </span>
                </div>
                <div className="Priority">
-                  <span>Important Link :</span><span style={{color:'blue'}}><a href='www.google.com' target='_blank' >
-                  {this.props.data.importantLink}
-                  </a> </span>
+                  <span>From  :  {this.props.data.fromDate} </span>
+                  <span>To  :  {this.props.data.toDate} </span>
+                 
                </div>
                <div className="Priority">
-                  <span>Important Date :</span><span style={{color:'blue'}}>
-                  {this.props.data.importantDate}
+                  <span>Date Count :</span><span style={{color:'blue'}}>
+                  {this.diff(this.props.data.toDate,this.props.data.fromDate)}
+                  </span>
+               </div> 
+               <div className="Priority">
+                  <span>Leave Count Remaining :</span><span style={{color:'blue'}}>
+                  {this.props.data.leaveCountRem}
                   </span>
                </div>
                <div className="content">
-               {this.props.data.notes}
+               {this.props.data.remarks}
                </div>
                <div className="content datetime">
                {this.dateCreatedAt(this.props.data.CreatedAt)}

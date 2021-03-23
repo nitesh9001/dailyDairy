@@ -19,7 +19,7 @@ class Header extends Component {
                 <div className='navigation-header'>
                    <div className="logo-name">
                    <span>
-                    Dairy
+                   Daily Leave App
                    </span>
                    </div>
                    <div className="profile-header">

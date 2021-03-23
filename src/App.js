@@ -9,7 +9,7 @@ class App extends Component {
       <Router baseName={"/"}>
       <Home>
         <Route exact path={"/"} component={Main} />
-        <Route exact path={"/notes"} component={Landing} />
+        <Route exact path={"/remarks"} component={Landing} />
       </Home>
       </Router>  
     );

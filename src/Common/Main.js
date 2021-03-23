@@ -4,7 +4,7 @@ class Main extends Component {
   render() {
     return (
       <div className="main">
-        <a href="#/notes">
+        <a href="#/remarks">
         <button className="centered-button-start">
           Get Started{" "}
         </button>

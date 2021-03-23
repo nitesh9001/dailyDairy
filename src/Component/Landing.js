@@ -125,61 +125,16 @@ export default class Landing extends Component {
       <div>
         <Header />
         <div className="landing-page-conatiner">
-          <div className="center-heading">Daily Leave App</div>
+          <div className="center-heading">Leave App</div>
           <div className="remarks-alignment">
             <div className="action-center-header">
-              <div>
-                {this.state.openAdd ? (
-                  <Tooltip title="Back" aria-label="add">
-                    <button
-                      className="btnless"
-                      onClick={() => {
-                        this.setState({
-                          openAdd: false,
-                        });
-                      }}
-                    >
-                      <i
-                        class="fa fa-arrow-left"
-                        aria-hidden="true"
-                        style={{ cursor: "pointer" }}
-                      ></i>
-                    </button>
-                  </Tooltip>
-                ) : (
-                  <Tooltip title="Add Notes" aria-label="add">
-                    <button
-                      className="btnless"
-                      onClick={() => {
-                        this.setState({
-                          openAdd: true,
-                        });
-                      }}
-                    >
-                      <i
-                        class="fa fa-plus"
-                        aria-hidden="true"
-                        style={{ cursor: "pointer" }}
-                      ></i> {" "} <span
-                        style={{
-                          color: "white",
-                          fontWeight: "bold",
-                          fontSize: "14px",
-                        }}
-                      >
-                        ADD
-                      </span>
-                    </button>
-                  </Tooltip>
-                )}
+              <div>              
               </div>
             </div>
-            {this.state.openAdd ? (
               <div
                   className="remarks-alignment-conatiner"
                   style={{ display: "block", margin: "60px" ,paddingBottom:'40px' }}
                 >
-                
                   <div className="input-box-style">
                     <div className="lable">
                       <label>Leave type :</label>
@@ -229,7 +184,7 @@ export default class Landing extends Component {
                       type="date"
                       placeholder="To"
                       name="toDate"
-                      value={this.state.fromDate}
+                      value={this.state.toDate}
                       onChange={this.handleChange}
                     />
                   </div>  
@@ -262,10 +217,7 @@ export default class Landing extends Component {
                   >
                     Cancel
                   </button>
-                </div>
-              ) : (
-              <>
-                
+                </div>  
                 <div className="remarks-alignment-conatiner">
                   {this.state.remarks_dairy.map((data, i) => (
                     <CardNotes
@@ -280,8 +232,6 @@ export default class Landing extends Component {
                     />
                   ))}
                 </div>
-              </>
-            )}
           </div>
         </div>
         <Footer />
